@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	log "github.com/sirupsen/logrus"
@@ -35,8 +34,6 @@ func main() {
 
 	ctx = config.WrapContext(ctx, cfg)
 
-	fmt.Println(cfg)
-
 	application, err := app.New(ctx)
 	if err != nil {
 		log.WithContext(ctx).WithError(err).Error("cant create application")
@@ -44,7 +41,7 @@ func main() {
 		os.Exit(2)
 	}
 
-	err = application.Run()
+	err = application.Run(ctx)
 	if err != nil {
 		log.WithContext(ctx).WithError(err).Error("cant run application")
 

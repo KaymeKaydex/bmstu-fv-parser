@@ -7,7 +7,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"time"
 
 	log "github.com/sirupsen/logrus"
 
@@ -50,13 +49,7 @@ func (c *Client) GetWorkingOut(req RequestGetWorkingOut) (*ResponseGetWorkingOut
 
 	log.Info("generated url ", url.String())
 
-	rawReq := &RequestGetWorkingOut{
-		Id:            14,
-		Date:          time.Date(2022, 4, 18, 0, 0, 0, 0, time.Local),
-		SecurityLSKey: "cfeff17599c13002d5685ca2c4fe25e5",
-	}
-
-	rawReqBody := []byte(rawReq.String())
+	rawReqBody := []byte(req.String())
 
 	reqToFV, err := http.NewRequest("POST", url.String(), bytes.NewBuffer(rawReqBody))
 	if err != nil {

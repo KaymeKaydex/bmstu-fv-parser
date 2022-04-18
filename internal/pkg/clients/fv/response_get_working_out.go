@@ -6,6 +6,8 @@ type ResponseGetWorkingOut struct {
 		BranchId            string        `json:"branch_id"`
 		CategoryId          interface{}   `json:"category_id"`
 		AddressId           string        `json:"address_id"`
+		PointsGeneral       int           `json:"points_general"`
+		PointsExtra         int           `json:"points_extra"`
 		Category            []interface{} `json:"category"`
 		Title               string        `json:"title"`
 		AddressText         interface{}   `json:"address_text"`
@@ -38,6 +40,7 @@ type ResponseGetWorkingOut struct {
 		} `json:"users"`
 		UsersCountAll interface{} `json:"users_count_all"`
 	} `json:"items"`
+
 	SMsgTitle   string `json:"sMsgTitle"`
 	SMsg        string `json:"sMsg"`
 	BStateError bool   `json:"bStateError"`

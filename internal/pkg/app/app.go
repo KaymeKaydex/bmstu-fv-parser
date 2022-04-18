@@ -17,7 +17,7 @@ func New(ctx context.Context) (*App, error) {
 
 func (a *App) Run(ctx context.Context) error {
 	c := fv.New(ctx)
-	c.GetWorkingOut("")
+	c.GetWorkingOut(fv.RequestGetWorkingOut{})
 
 	return nil
 }

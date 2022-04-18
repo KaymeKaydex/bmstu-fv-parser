@@ -16,6 +16,17 @@ func New(ctx context.Context) (*App, error) {
 }
 
 func (a *App) Run(ctx context.Context) error {
+	/*
+		на след занятие
+
+		db, err := gorm.Open(postgres.Open(dsn.FromEnv()), &gorm.Config{})
+		if err != nil {
+			log.WithError(err).Println("Cant open postgers connection")
+
+			return err
+		}
+	*/
+
 	c := fv.New(ctx)
 	c.GetWorkingOut(fv.RequestGetWorkingOut{})
 

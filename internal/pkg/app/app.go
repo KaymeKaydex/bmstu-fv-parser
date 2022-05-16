@@ -2,6 +2,10 @@ package app
 
 import (
 	"context"
+	"fmt"
+	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/KaymeKaydex/bmstu-fv-parser.git/internal/pkg/clients/fv"
 )
@@ -28,7 +32,16 @@ func (a *App) Run(ctx context.Context) error {
 	*/
 
 	c := fv.New(ctx)
-	c.GetWorkingOut(fv.RequestGetWorkingOut{})
+	resp, err := c.GetWorkingOut(fv.RequestGetWorkingOut{
+		Id:            14,
+		Date:          time.Date(2022, 05, 17, 0, 0, 0, 0, time.Local),
+		SecurityLSKey: "bb536826f9118d389119e1f36a2e208a",
+	})
+	if err != nil {
+		log.WithContext(ctx).WithError(err).Error("cant do request to fv")
+	}
+
+	fmt.Println(resp)
 
 	return nil
 }

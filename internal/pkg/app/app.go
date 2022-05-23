@@ -2,46 +2,66 @@ package app
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/KaymeKaydex/bmstu-fv-parser.git/internal/pkg/clients/fv"
+	"github.com/KaymeKaydex/bmstu-fv-parser.git/internal/app/config"
+	"github.com/KaymeKaydex/bmstu-fv-parser.git/internal/app/model"
+	"github.com/KaymeKaydex/bmstu-fv-parser.git/internal/app/service"
 )
+
+type IService interface {
+	ParseFVSite(ctx context.Context, date time.Time) ([]model.WorkingOutItem, error)
+	// WriteWorkingOutItems Запись в базу данных
+	WriteWorkingOutItems(ctx context.Context, items []model.WorkingOutItem) error
+	// ReadWorkingOutItems(ctx context.Context, date time.Time) []model.WorkingOutItem
+}
 
 type App struct {
 	// корневой контекст
 	ctx context.Context
+
+	service IService
 }
 
 func New(ctx context.Context) (*App, error) {
-	return &App{}, nil
+	app := &App{
+		ctx: ctx,
+	}
+
+	srv, err := service.New(ctx)
+	if err != nil {
+		log.WithContext(ctx).WithError(err).Error("cant create service")
+	}
+
+	app.service = srv
+
+	return app, nil
 }
 
 func (a *App) Run(ctx context.Context) error {
-	/*
-		на след занятие
+	fvCfg := config.FromContext(ctx).FVConfig
 
-		db, err := gorm.Open(postgres.Open(dsn.FromEnv()), &gorm.Config{})
-		if err != nil {
-			log.WithError(err).Println("Cant open postgers connection")
+	for {
+		date := time.Now()
 
-			return err
+		for i := 0; i < 3; i++ {
+			workingOutItems, err := a.service.ParseFVSite(ctx, date)
+			if err != nil {
+				log.WithError(err).Error("cant parse fv")
+			}
+
+			err = a.service.WriteWorkingOutItems(ctx, workingOutItems)
+			if err != nil {
+				log.WithError(err).Error("cant write to db")
+			}
+
+			date = date.Add(time.Hour * 24)
 		}
-	*/
 
-	c := fv.New(ctx)
-	resp, err := c.GetWorkingOut(fv.RequestGetWorkingOut{
-		Id:            14,
-		Date:          time.Date(2022, 05, 17, 0, 0, 0, 0, time.Local),
-		SecurityLSKey: "bb536826f9118d389119e1f36a2e208a",
-	})
-	if err != nil {
-		log.WithContext(ctx).WithError(err).Error("cant do request to fv")
+		time.Sleep(fvCfg.CronTimeout)
 	}
-
-	fmt.Println(resp)
 
 	return nil
 }

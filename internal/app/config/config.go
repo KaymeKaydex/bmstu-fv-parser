@@ -3,6 +3,7 @@ package config
 import (
 	"context"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
@@ -22,6 +23,7 @@ type Config struct {
 type FVConfig struct {
 	SiteAddress string
 	Protocol    string
+	CronTimeout time.Duration
 }
 
 // NewConfig Создаёт новый объект конфигурации, загружая данные из файла конфигурации

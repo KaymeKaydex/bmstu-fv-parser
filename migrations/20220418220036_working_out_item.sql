@@ -20,7 +20,9 @@ create table working_out_items
     address_title         text,
     address               text,
     is_allow_join         boolean,
-    users_count_all       int
+    users_count_all       int,
+
+    created_at            date
 );
 -- +goose StatementEnd
 

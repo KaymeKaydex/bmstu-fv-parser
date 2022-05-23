@@ -2,19 +2,19 @@ package fv
 
 type ResponseGetWorkingOut struct {
 	Items []struct {
-		Id            string `json:"id"`             // id отработки
-		BranchId      string `json:"branch_id"`      // Неизвестное поле, но совпадает с id в запросе
-		PointsGeneral int    `json:"points_general"` // Основные баллы (за посещения)
-		PointsExtra   int    `json:"points_extra"`   // Доп баллы за отработку
-		Title         string `json:"title"`          // Название
-		Description   string `json:"description"`    // Описание "отработки"
-		Url           string `json:"url"`            // Ведет на адрес с отработкой. Там можно взят
-		// DateBegin           time.Time `json:"date_begin"`
-		// DateEnd             time.Time `json:"date_end"`
-		//  DateRegistrationEnd time.Time `json:"date_registration_end"`
-		CountUserMax        *string `json:"count_user_max"`        // Максимальное число записей
-		CountUsersAvailable int     `json:"count_users_available"` // Сколько еще доступно записей?
-		CountUsers          string  `json:"count_users"`           // Число записавшихся
+		Id                  string      `json:"id"`             // id отработки
+		BranchId            string      `json:"branch_id"`      // Неизвестное поле, но совпадает с id в запросе
+		PointsGeneral       int         `json:"points_general"` // Основные баллы (за посещения)
+		PointsExtra         int         `json:"points_extra"`   // Доп баллы за отработку
+		Title               string      `json:"title"`          // Название
+		Description         string      `json:"description"`    // Описание "отработки"
+		Url                 string      `json:"url"`            // Ведет на адрес с отработкой. Там можно взят
+		DateBegin           interface{} `json:"date_begin"`
+		DateEnd             interface{} `json:"date_end"`
+		DateRegistrationEnd interface{} `json:"date_registration_end"`
+		CountUserMax        *string     `json:"count_user_max"`        // Максимальное число записей
+		CountUsersAvailable int         `json:"count_users_available"` // Сколько еще доступно записей?
+		CountUsers          string      `json:"count_users"`           // Число записавшихся
 		Address             struct {
 			Id      string `json:"id"`
 			Title   string `json:"title"`

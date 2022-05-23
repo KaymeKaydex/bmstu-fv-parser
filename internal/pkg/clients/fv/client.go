@@ -4,13 +4,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 
 	log "github.com/sirupsen/logrus"
-	"moul.io/http2curl"
 
 	"github.com/KaymeKaydex/bmstu-fv-parser.git/internal/app/config"
 )
@@ -53,7 +51,7 @@ func (c *Client) GetWorkingOut(req RequestGetWorkingOut) (*ResponseGetWorkingOut
 
 	rawReqBody := []byte(req.String())
 
-	reqToFV, err := http.NewRequest("POST", url.String(), bytes.NewBuffer(rawReqBody))
+	reqToFV, err := http.NewRequest(http.MethodPost, url.String(), bytes.NewBuffer(rawReqBody))
 	if err != nil {
 		return nil, err
 	}
@@ -69,15 +67,10 @@ func (c *Client) GetWorkingOut(req RequestGetWorkingOut) (*ResponseGetWorkingOut
 		return nil, err
 	}
 
-	command, _ := http2curl.GetCurlCommand(reqToFV)
-	fmt.Println(command)
-
 	bts, err := io.ReadAll(r.Body)
 	if err != nil {
 		return nil, err
 	}
-
-	log.Debug(string(bts))
 
 	var resp ResponseGetWorkingOut
 

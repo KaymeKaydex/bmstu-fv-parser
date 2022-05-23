@@ -6,6 +6,8 @@ import (
 
 // WorkingOutItem - отработка
 type WorkingOutItem struct {
+	CreatedAt time.Time `json:"-"`
+
 	Id                  int       `json:"id"`             // id отработки
 	BranchId            int       `json:"branch_id"`      // Неизвестное поле, но совпадает с id в запросе
 	PointsGeneral       int       `json:"points_general"` // Основные баллы (за посещения)
@@ -16,8 +18,8 @@ type WorkingOutItem struct {
 	DateBegin           time.Time `json:"date_begin"`
 	DateEnd             time.Time `json:"date_end"`
 	DateRegistrationEnd time.Time `json:"date_registration_end"`
-	CountUserMax        *string   `json:"count_user_max"` // Максимальное число записей
-	CountUsers          string    `json:"count_users"`    // Число записавшихся
+	CountUserMax        int       `json:"count_user_max"` // Максимальное число записей
+	CountUsers          int       `json:"count_users"`    // Число записавшихся
 	AddressId           int       `json:"id"`
 	AddressTitle        string    `json:"title"`
 	Address             string    `json:"address"`

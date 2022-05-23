@@ -44,6 +44,7 @@ func (a *App) Run(ctx context.Context) error {
 	fvCfg := config.FromContext(ctx).FVConfig
 
 	for {
+		// дата за которую будет парсинг
 		date := time.Now()
 
 		for i := 0; i < 3; i++ {
@@ -57,6 +58,7 @@ func (a *App) Run(ctx context.Context) error {
 				log.WithError(err).Error("cant write to db")
 			}
 
+			// следующий день
 			date = date.Add(time.Hour * 24)
 		}
 

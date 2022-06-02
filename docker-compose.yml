@@ -1,23 +1,16 @@
 version: "3.8"
 services:
-  db:
-    image: postgres:12
-    volumes:
-      - type: volume
-        source: postgresdb-data
-        target: /var/lib/postgresql/data
+  redis:
+    image: redis:6.2-alpine
+    restart: unless-stopped
     ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: some_user
-      POSTGRES_DB: some_db
-      POSTGRES_PASSWORD: some_password
-    networks:
-      - hac-loc
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass password
+    volumes:
+      - cache:/data
 
 volumes:
+  cache:
+    driver: local
   postgresdb-data:
     driver: local
-
-networks:
-  hac-loc:

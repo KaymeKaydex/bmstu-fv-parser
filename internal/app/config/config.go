@@ -15,6 +15,20 @@ import (
 // автоподгружается при изменении исходного файла
 type Config struct {
 	Token string
+
+	Redis RedisConfig
+}
+
+type RedisConfig struct {
+	// from config file
+	TTL         int
+	DialTimeout int
+	ReadTimeout int
+	// from env
+	Host     string
+	Port     int
+	User     string
+	Password string
 }
 
 // NewConfig Создаёт новый объект конфигурации, загружая данные из файла конфигурации
@@ -27,6 +41,8 @@ func NewConfig(ctx context.Context) (*Config, error) {
 	if os.Getenv("CONFIG_NAME") != "" {
 		configName = os.Getenv("CONFIG_NAME")
 	}
+
+	cfg.Redis.Password = os.Getenv("REDIS_PASS")
 
 	if token := os.Getenv("VK_TOKEN"); token == "" {
 		return nil, fmt.Errorf("")

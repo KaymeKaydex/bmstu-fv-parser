@@ -16,9 +16,4 @@ test:
 
 .PHONY: local
 local:
-	cp .dist.env .env
-
-# Запустить миграции
-.PHONY: migrate
-migrate:
-	go run $(PWD)/cmd/migrate
+	cp .dist.env .env && cp config/config.stg.toml config/config.toml
